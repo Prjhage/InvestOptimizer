@@ -1,0 +1,38 @@
+[
+  {
+    "name": "TCS",
+    "price": 3500,
+    "return": 12,
+    "risk": 6
+  },
+  {
+    "name": "INFY",
+    "price": 1500,
+    "return": 10,
+    "risk": 4
+  },
+  {
+    "name": "RELIANCE",
+    "price": 2500,
+    "return": 15,
+    "risk": 8
+  },
+  {
+    "name": "HDFC",
+    "price": 2000,
+    "return": 11,
+    "risk": 5
+  },
+  {
+    "name": "ICICI",
+    "price": 1800,
+    "return": 13,
+    "risk": 7
+  },
+  {
+    "name": "WIPRO",
+    "price": 1200,
+    "return": 9,
+    "risk": 3
+  }
+]

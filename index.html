@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="Hybrid Investment Optimizer — Compare Greedy, DP, and Branch & Bound algorithms for optimal stock portfolio selection." />
+  <title>Investment Optimizer — Hybrid Algorithm Analysis</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+  <!-- Animated background orbs -->
+  <div class="bg-orb orb-1"></div>
+  <div class="bg-orb orb-2"></div>
+  <div class="bg-orb orb-3"></div>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-icon">📈</span>
+        <span class="logo-text">InvestOptimizer</span>
+      </div>
+      <div class="header-badge">DAA Mini Project</div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <h1 class="hero-title">
+      Hybrid Investment<br />
+      <span class="gradient-text">Optimization Engine</span>
+    </h1>
+    <p class="hero-subtitle">
+      Compare <strong>Greedy</strong>, <strong>Dynamic Programming</strong>, and
+      <strong>Branch &amp; Bound</strong> algorithms to maximize your portfolio returns.
+    </p>
+  </section>
+
+  <!-- Main Container -->
+  <main class="main-container">
+
+    <!-- Stock Table Card -->
+    <section class="card stock-card" id="stock-table-section" aria-label="Stock Data">
+      <div class="card-header">
+        <h2 class="card-title"><span class="card-icon">🗂️</span> Available Stocks</h2>
+        <span class="badge badge-live" id="stock-count-badge">Loading…</span>
+      </div>
+      <div class="table-wrapper">
+        <table id="stock-table" aria-label="Stock list">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Stock</th>
+              <th>Price (₹)</th>
+              <th>Return (%)</th>
+              <th>Efficiency</th>
+            </tr>
+          </thead>
+          <tbody id="stock-tbody">
+            <!-- filled by JS -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Budget Input Card -->
+    <section class="card input-card" aria-label="Budget Input">
+      <div class="card-header">
+        <h2 class="card-title"><span class="card-icon">💰</span> Set Your Budget</h2>
+      </div>
+      <div class="input-row">
+        <div class="input-wrapper">
+          <span class="input-prefix">₹</span>
+          <input type="number" id="budget" placeholder="e.g. 10000" min="1" aria-label="Budget in rupees" />
+        </div>
+        <button id="run-btn" onclick="runAnalysis()" aria-label="Run Algorithm Analysis">
+          <span class="btn-icon">⚡</span> Run Analysis
+        </button>
+      </div>
+      <div class="quick-budgets">
+        <span class="quick-label">Quick select:</span>
+        <button class="quick-btn" onclick="setBudget(5000)">₹5,000</button>
+        <button class="quick-btn" onclick="setBudget(10000)">₹10,000</button>
+        <button class="quick-btn" onclick="setBudget(15000)">₹15,000</button>
+        <button class="quick-btn" onclick="setBudget(20000)">₹20,000</button>
+      </div>
+    </section>
+
+    <!-- Loading Indicator -->
+    <div id="loading" class="loading hidden" aria-live="polite">
+      <div class="spinner"></div>
+      <span>Running algorithms…</span>
+    </div>
+
+    <!-- Results Grid -->
+    <section id="results-section" class="results-grid hidden" aria-label="Algorithm Results">
+
+      <!-- Greedy -->
+      <div class="result-card result-greedy" id="card-greedy">
+        <div class="result-header">
+          <span class="algo-icon">⚡</span>
+          <div>
+            <div class="algo-name">Greedy</div>
+            <div class="algo-desc">Best ratio first</div>
+          </div>
+          <span class="algo-badge badge-greedy">Heuristic</span>
+        </div>
+        <div class="result-profit" id="greedy-profit">—</div>
+        <div class="result-label">Total Return (%)</div>
+        <div class="result-detail">
+          <div class="detail-row">
+            <span>Exec Time</span>
+            <span class="mono" id="greedy-time">—</span>
+          </div>
+          <div class="detail-row">
+            <span>Stocks Picked</span>
+            <span class="mono" id="greedy-count">—</span>
+          </div>
+        </div>
+        <div class="selected-stocks" id="greedy-stocks"></div>
+      </div>
+
+      <!-- DP -->
+      <div class="result-card result-dp" id="card-dp">
+        <div class="result-header">
+          <span class="algo-icon">🧮</span>
+          <div>
+            <div class="algo-name">Dynamic Programming</div>
+            <div class="algo-desc">Optimal substructure</div>
+          </div>
+          <span class="algo-badge badge-dp">Optimal</span>
+        </div>
+        <div class="result-profit" id="dp-profit">—</div>
+        <div class="result-label">Total Return (%)</div>
+        <div class="result-detail">
+          <div class="detail-row">
+            <span>Exec Time</span>
+            <span class="mono" id="dp-time">—</span>
+          </div>
+          <div class="detail-row">
+            <span>Stocks Picked</span>
+            <span class="mono" id="dp-count">—</span>
+          </div>
+        </div>
+        <div class="selected-stocks" id="dp-stocks"></div>
+      </div>
+
+      <!-- Branch & Bound -->
+      <div class="result-card result-bb" id="card-bb">
+        <div class="result-header">
+          <span class="algo-icon">🌳</span>
+          <div>
+            <div class="algo-name">Branch &amp; Bound</div>
+            <div class="algo-desc">Exhaustive pruning</div>
+          </div>
+          <span class="algo-badge badge-bb">Exact</span>
+        </div>
+        <div class="result-profit" id="bb-profit">—</div>
+        <div class="result-label">Total Return (%)</div>
+        <div class="result-detail">
+          <div class="detail-row">
+            <span>Exec Time</span>
+            <span class="mono" id="bb-time">—</span>
+          </div>
+          <div class="detail-row">
+            <span>Stocks Picked</span>
+            <span class="mono" id="bb-count">—</span>
+          </div>
+        </div>
+        <div class="selected-stocks" id="bb-stocks"></div>
+      </div>
+
+    </section>
+
+    <!-- Summary Bar -->
+    <section id="summary-section" class="card summary-card hidden" aria-label="Comparison Summary">
+      <div class="card-header">
+        <h2 class="card-title"><span class="card-icon">🏆</span> Comparison Summary</h2>
+      </div>
+      <div id="summary-content"></div>
+    </section>
+
+    <!-- Chart Card -->
+    <section class="card chart-card hidden" id="chart-card" aria-label="Profit Comparison Chart">
+      <div class="card-header">
+        <h2 class="card-title"><span class="card-icon">📊</span> Profit Comparison</h2>
+        <div class="chart-toggle-group">
+          <button class="chart-toggle active" id="toggle-bar" onclick="switchChart('bar')">Bar</button>
+          <button class="chart-toggle" id="toggle-radar" onclick="switchChart('radar')">Radar</button>
+        </div>
+      </div>
+      <div class="chart-wrapper">
+        <canvas id="chart" aria-label="Algorithm profit comparison chart"></canvas>
+      </div>
+    </section>
+    <!-- Risk vs Return Chart Card -->
+    <section class="card chart-card" id="risk-chart-card" aria-label="Risk vs Return Chart">
+      <div class="card-header">
+        <h2 class="card-title"><span class="card-icon">📉</span> Risk vs Return Analysis</h2>
+        <span class="badge badge-live" style="animation:none;">All Stocks</span>
+      </div>
+      <div class="chart-wrapper">
+        <canvas id="riskChart" aria-label="Risk vs Return scatter chart"></canvas>
+      </div>
+    </section>
+
+    <!-- Info Cards -->
+    <section class="info-grid" aria-label="Algorithm Information">
+      <div class="info-card">
+        <div class="info-icon">⚡</div>
+        <h3>Greedy</h3>
+        <p>Selects stocks with the highest return-to-price ratio first. Fast but may not always yield the optimal
+          solution.</p>
+        <div class="info-complexity"><span class="complexity-label">Time:</span> O(n log n)</div>
+      </div>
+      <div class="info-card">
+        <div class="info-icon">🧮</div>
+        <h3>Dynamic Programming</h3>
+        <p>Uses a 1D table to solve the 0/1 knapsack problem. Guaranteed optimal result for integer budgets.</p>
+        <div class="info-complexity"><span class="complexity-label">Time:</span> O(n × W)</div>
+      </div>
+      <div class="info-card">
+        <div class="info-icon">🌳</div>
+        <h3>Branch &amp; Bound</h3>
+        <p>Explores all combinations via DFS with pruning. Exact solution with better average-case performance than
+          brute force.</p>
+        <div class="info-complexity"><span class="complexity-label">Time:</span> O(2ⁿ) worst</div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>Investment Optimizer &copy; 2025 &mdash; DAA Mini Project &mdash; Built with Chart.js &amp; Vanilla JS</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
