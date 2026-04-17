@@ -7,12 +7,12 @@ let lastResults = null;
 
 // ── Inline Stock Data (no server/fetch needed) ────────────
 const stocks = [
-  { name: "TCS",      price: 3500, return: 12, risk: 6 },
-  { name: "INFY",     price: 1500, return: 10, risk: 4 },
+  { name: "TCS", price: 3500, return: 12, risk: 6 },
+  { name: "INFY", price: 1500, return: 10, risk: 4 },
   { name: "RELIANCE", price: 2500, return: 15, risk: 8 },
-  { name: "HDFC",     price: 2000, return: 11, risk: 5 },
-  { name: "ICICI",    price: 1800, return: 13, risk: 7 },
-  { name: "WIPRO",    price: 1200, return:  9, risk: 3 }
+  { name: "HDFC", price: 2000, return: 11, risk: 5 },
+  { name: "ICICI", price: 1800, return: 13, risk: 7 },
+  { name: "WIPRO", price: 1200, return: 9, risk: 3 }
 ];
 
 // ── Init on page load ─────────────────────────────────────
@@ -431,7 +431,7 @@ function drawRiskReturnChart(stockList) {
     label: stock.name,
     data: [{ x: stock.risk, y: stock.return }],
     backgroundColor: palette[i % palette.length] + 'cc',
-    borderColor:     palette[i % palette.length],
+    borderColor: palette[i % palette.length],
     borderWidth: 2,
     pointRadius: 10,
     pointHoverRadius: 14,
@@ -480,7 +480,7 @@ function drawRiskReturnChart(stockList) {
             color: '#7a7f9a',
             font: { family: 'Inter', weight: '600', size: 12 }
           },
-          grid:  { color: 'rgba(255,255,255,0.06)' },
+          grid: { color: 'rgba(255,255,255,0.06)' },
           ticks: { color: '#7a7f9a', font: { family: 'JetBrains Mono', size: 11 } },
           min: 0
         },
@@ -491,7 +491,7 @@ function drawRiskReturnChart(stockList) {
             color: '#7a7f9a',
             font: { family: 'Inter', weight: '600', size: 12 }
           },
-          grid:  { color: 'rgba(255,255,255,0.06)' },
+          grid: { color: 'rgba(255,255,255,0.06)' },
           ticks: {
             color: '#7a7f9a',
             font: { family: 'JetBrains Mono', size: 11 },
